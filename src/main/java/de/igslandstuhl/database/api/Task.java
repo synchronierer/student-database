@@ -119,16 +119,15 @@ public class Task implements APIObject {
      * @return the formatted number of the task
      */
     public String getNumber() {
-        switch (niveau) {
-            case LEVEL1:
-                return topic.getNumber() + ".1." + (topic.getTasksLevel1().indexOf(this) + 1);
-            case LEVEL2:
-                return topic.getNumber() + ".2." + (topic.getTasksLevel2().indexOf(this) + 1);
-            case LEVEL3:
-                return topic.getNumber() + ".3." + (topic.getTasksLevel3().indexOf(this) + 1);
-            default:
-                throw new IllegalStateException("Unknown level: " + niveau);
+        if (niveau.getNumber() == -1) {
+            throw new IllegalStateException("Special tasks have no topic number");
         }
+
+        return topic.getNumber()
+            + "."
+            + niveau.getNumber()
+            + "."
+            + (topic.getTasksByLevel(niveau).indexOf(this) + 1);
     }
     /**
      * Returns the ratio of the task in relation to its topic and level.

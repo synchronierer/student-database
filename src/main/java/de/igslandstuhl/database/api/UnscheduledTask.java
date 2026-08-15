@@ -34,7 +34,7 @@ public class UnscheduledTask extends Task {
      * @param maxTokens the maximum number of tokens for the task
      */
     public UnscheduledTask(int id, String name, SchoolClass schoolClass, Subject subject, int maxTokens) {
-        super(id, null, name, TaskLevel.SPECIAL, maxTokens);
+        super(id, null, name, TaskLevel.get(-1), maxTokens);
         this.schoolClass = schoolClass;
         this.subject = subject;
         this.maxTokens = maxTokens;

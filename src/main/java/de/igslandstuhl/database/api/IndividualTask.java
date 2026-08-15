@@ -28,7 +28,7 @@ public class IndividualTask extends Task {
      * @param tokens the number of tokens for the individual task
      */
     public IndividualTask(int id, String name, Subject subject, int tokens) {
-        super(id, null, name, TaskLevel.SPECIAL, tokens);
+        super(id, null, name, TaskLevel.get(-1), tokens);
         this.subject = subject;
     }
 

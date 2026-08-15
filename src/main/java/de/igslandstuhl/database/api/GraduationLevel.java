@@ -22,7 +22,7 @@ public class GraduationLevel extends RegistryEnum<GraduationLevel> implements AP
      * Local resources have priority. Plugin resources are deliberately excluded,
      * so graduation levels can only be overridden by the local file system.
      */
-    private static final ResourceManager RESOURCE_MANAGER =
+    static final ResourceManager RESOURCE_MANAGER =
         new ResourceManager(
             new FileResourceProvider(Path.of("resources")),
             new CoreResourceProvider()

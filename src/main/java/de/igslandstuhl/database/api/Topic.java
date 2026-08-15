@@ -224,19 +224,17 @@ public class Topic implements APIObject {
      * @return a list of tasks at the specified level associated with the topic
      */
     public List<Task> getTasksByLevel(TaskLevel level) {
+        if (level.getNumber() == -1) {
+            throw new IllegalArgumentException(
+                "Special tasks do not belong to topics"
+            );
+        }
+
         if (tasks.isEmpty()) {
             loadTasks();
         }
-        switch (level) {
-            case LEVEL1:
-                return getTasksLevel1();
-            case LEVEL2:
-                return getTasksLevel2();
-            case LEVEL3:
-                return getTasksLevel3();
-            default:
-                throw new IllegalArgumentException("Invalid level: " + level);
-        }
+
+        return getTasksByLevel(tasks, level);
     }
     /**
      * Filters tasks by their difficulty level.
@@ -267,9 +265,9 @@ public class Topic implements APIObject {
                 "get_tasks_by_topic", new String[] {"id"}, String.valueOf(id)
             );
             taskIds.stream().map(Task::get).filter(Objects::nonNull).forEach(t -> tasks.add(t));
-            tasksLevel1 = getTasksByLevel(tasks, TaskLevel.LEVEL1);
-            tasksLevel2 = getTasksByLevel(tasks, TaskLevel.LEVEL2);
-            tasksLevel3 = getTasksByLevel(tasks, TaskLevel.LEVEL3);
+            tasksLevel1 = getTasksByLevel(tasks, TaskLevel.get(1));
+            tasksLevel2 = getTasksByLevel(tasks, TaskLevel.get(2));
+            tasksLevel3 = getTasksByLevel(tasks, TaskLevel.get(3));
         } catch (SQLException e) {
             Application.LOGGER_API.error("Failed to get task list for topic '{}' from database", this.name, e);
         }
